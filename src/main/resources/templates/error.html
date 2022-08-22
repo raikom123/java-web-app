@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,
+                   initial-scale=1,
+                   shrink-to-fit=no">
+    <meta name="description"
+          content="APP DESCRIPTION">
+    <meta name="author"
+          content="YOUR NAME">
+    <title th:text="#{system.title}">書籍管理システム</title>
+    <link rel="stylesheet"
+          th:href="@{/css/bootstrap-4.4.1.min.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="header clearfix">
+            <h3 class="text-muted" th:text="#{system.title}">書籍管理システム</h3>
+        </div>
+        <div class="jumbotron">
+            <h1 th:text="#{label.occureedError}">エラーが発生しました。</h1>
+            <a type="button"
+               class="btn btn-success"
+               href="./books.html"
+               th:href="@{/}"
+               th:text="#{label.backToBookManageSystem}"
+            >
+            書籍管理システムに戻る
+            </a>
+        </div>
+    </div>
+    <script th:src="@{/js/vendor/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{/js/vendor/popper-1.16.0.min.js}"></script>
+    <script th:src="@{/js/bootstrap-4.4.1.min.js}"></script>
+</body>
+</html>
