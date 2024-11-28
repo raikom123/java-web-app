@@ -20,7 +20,7 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import com.example.bookmanage.BookmanageApplication;
 import com.example.bookmanage.domain.Book;
 import com.example.bookmanage.exception.BookNotFoundException;
-import com.example.bookmanage.form.BookManageForm;
+import com.example.bookmanage.form.BookManagementForm;
 import com.example.bookmanage.repository.BookRepository;
 
 /**
@@ -88,7 +88,7 @@ class BookManageServiceTests {
         when(repository.findAll()).thenReturn(Arrays.asList(testBook));
 
         // initFormの呼び出し
-        BookManageForm form = service.initForm();
+        BookManagementForm form = service.initForm();
 
         // 変数を評価する
         assertNull(form.getTitle());
@@ -117,7 +117,7 @@ class BookManageServiceTests {
 
         try {
             // readOneBookを呼び出す
-            BookManageForm form = service.readOneBook(TEST_ID);
+            BookManagementForm form = service.readOneBook(TEST_ID);
 
             // 変数を評価する
             assertEquals(form.getTitle(), TEST_TITLE);
@@ -158,7 +158,7 @@ class BookManageServiceTests {
         when(repository.save(testBook)).thenReturn(testBook);
 
         // updateBookを呼び出す
-        BookManageForm form = BookManageForm.builder()
+        BookManagementForm form = BookManagementForm.builder()
                 .title(TEST_TITLE)
                 .author(TEST_AUTHOR)
                 .version(TEST_VERSION)
@@ -185,7 +185,7 @@ class BookManageServiceTests {
         when(repository.findById(TEST_ID)).thenReturn(Optional.of(testBook));
 
         // updateBookを呼び出す
-        BookManageForm form = BookManageForm.builder()
+        BookManagementForm form = BookManagementForm.builder()
                 .title(TEST_TITLE)
                 .author(TEST_AUTHOR)
                 .version(INVALID_TEST_VERSION)
@@ -211,7 +211,7 @@ class BookManageServiceTests {
         when(repository.findById(TEST_ID)).thenReturn(Optional.ofNullable(null));
 
         // updateBookを呼び出す
-        BookManageForm form = BookManageForm.builder()
+        BookManagementForm form = BookManagementForm.builder()
                 .title(TEST_TITLE)
                 .author(TEST_AUTHOR)
                 .version(TEST_VERSION)
@@ -229,7 +229,7 @@ class BookManageServiceTests {
     @Test
     void createBook_戻り値と保存処理の呼び出しを確認() {
         // 引数を作成
-        BookManageForm form = BookManageForm.builder()
+        BookManagementForm form = BookManagementForm.builder()
                 .title(TEST_TITLE)
                 .author(TEST_AUTHOR)
                 .build();

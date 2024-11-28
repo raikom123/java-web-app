@@ -29,7 +29,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.example.bookmanage.BookmanageApplication;
 import com.example.bookmanage.domain.Book;
 import com.example.bookmanage.exception.BookNotFoundException;
-import com.example.bookmanage.form.BookManageForm;
+import com.example.bookmanage.form.BookManagementForm;
 import com.example.bookmanage.service.BookManageService;
 
 /**
@@ -143,7 +143,7 @@ public class BookManageControllerUnitTests {
     @Test
     public void readBooks_データが登録されていない時のステータスとビューとモデルの確認() throws Exception {
         // モックを登録
-        BookManageForm initForm = BookManageForm.builder()
+        BookManagementForm initForm = BookManagementForm.builder()
                 .newBook(true)
                 .books(Arrays.asList())
                 .build();
@@ -160,7 +160,7 @@ public class BookManageControllerUnitTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertNull(form.getTitle());
@@ -180,7 +180,7 @@ public class BookManageControllerUnitTests {
     @Test
     public void readBooks_データが1件登録されている時のステータスとビューとモデルの確認() throws Exception {
         // モックを登録
-        BookManageForm initForm = BookManageForm.builder()
+        BookManagementForm initForm = BookManagementForm.builder()
                 .newBook(true)
                 .books(Arrays.asList(testBook))
                 .build();
@@ -197,7 +197,7 @@ public class BookManageControllerUnitTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertNull(form.getTitle());
@@ -216,7 +216,7 @@ public class BookManageControllerUnitTests {
     @Test
     public void readOneBook_データが存在するidを指定した時のステータスとビューとモデルの確認() throws Exception {
         // モックを登録
-        BookManageForm readOneForm = BookManageForm.builder()
+        BookManagementForm readOneForm = BookManagementForm.builder()
                 .title(TEST_TITLE)
                 .author(TEST_AUTHOR)
                 .newBook(false)
@@ -232,7 +232,7 @@ public class BookManageControllerUnitTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertEquals(form.getTitle(), TEST_TITLE);
@@ -256,7 +256,7 @@ public class BookManageControllerUnitTests {
     public void readOneBook_データが存在しないidを指定した時のステータスとビューとモデルの確認() throws Exception {
         // モックを登録
         when(service.readOneBook(INVALID_TEST_ID)).thenThrow(new BookNotFoundException(INVALID_TEST_ID));
-        BookManageForm initForm = BookManageForm.builder()
+        BookManagementForm initForm = BookManagementForm.builder()
                 .newBook(true)
                 .books(Arrays.asList(testBook))
                 .build();
@@ -270,7 +270,7 @@ public class BookManageControllerUnitTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertNull(form.getTitle());
@@ -291,7 +291,7 @@ public class BookManageControllerUnitTests {
     @Test
     public void createOneBook_正常に新規登録した場合のステータスとリダイレクトURLの確認() throws Exception {
         // テストデータ作成
-        BookManageForm inputForm = BookManageForm.builder()
+        BookManagementForm inputForm = BookManagementForm.builder()
                 .title(TEST_TITLE)
                 .author(TEST_AUTHOR)
                 .newBook(true)
@@ -316,11 +316,11 @@ public class BookManageControllerUnitTests {
     @Test
     public void createOneBook_入力エラーが発生した場合のステータスとビューとモデルの確認() throws Exception {
         // テストデータ作成
-        BookManageForm inputForm = BookManageForm.builder()
+        BookManagementForm inputForm = BookManagementForm.builder()
                 .newBook(true)
                 .version(0)
                 .build();
-        BookManageForm initForm = BookManageForm.builder()
+        BookManagementForm initForm = BookManagementForm.builder()
                 .newBook(true)
                 .version(0)
                 .books(Arrays.asList())
@@ -343,7 +343,7 @@ public class BookManageControllerUnitTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertNull(form.getTitle());
@@ -368,7 +368,7 @@ public class BookManageControllerUnitTests {
     @Test
     public void updateOneBook_正常に更新した場合のステータスとリダイレクトURLの確認() throws Exception {
         // テストデータ作成
-        BookManageForm inputForm = BookManageForm.builder()
+        BookManagementForm inputForm = BookManagementForm.builder()
                 .title(TEST_TITLE)
                 .author(TEST_AUTHOR)
                 .newBook(false)
@@ -393,13 +393,13 @@ public class BookManageControllerUnitTests {
     @Test
     public void updateOneBook_指定したIDのデータが存在しない場合のステータスとビューとモデルの確認() throws Exception {
         // テストデータ作成
-        BookManageForm inputForm = BookManageForm.builder()
+        BookManagementForm inputForm = BookManagementForm.builder()
                 .title(TEST_TITLE_ERROR)
                 .author(TEST_AUTHOR_ERROR)
                 .newBook(false)
                 .version(TEST_VERSION)
                 .build();
-        BookManageForm initForm = BookManageForm.builder()
+        BookManagementForm initForm = BookManagementForm.builder()
                 .newBook(true)
                 .books(Arrays.asList(testBook))
                 .build();
@@ -422,7 +422,7 @@ public class BookManageControllerUnitTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertEquals(form.getTitle(), inputForm.getTitle());
@@ -443,13 +443,13 @@ public class BookManageControllerUnitTests {
     @Test
     public void updateOneBook_バージョンが更新されている場合のステータスとビューとモデルの確認() throws Exception {
         // テストデータ作成
-        BookManageForm inputForm = BookManageForm.builder()
+        BookManagementForm inputForm = BookManagementForm.builder()
                 .title(TEST_TITLE_ERROR)
                 .author(TEST_AUTHOR_ERROR)
                 .newBook(false)
                 .version(TEST_VERSION)
                 .build();
-        BookManageForm initForm = BookManageForm.builder()
+        BookManagementForm initForm = BookManagementForm.builder()
                 .newBook(true)
                 .books(Arrays.asList(testBook))
                 .build();
@@ -472,7 +472,7 @@ public class BookManageControllerUnitTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertEquals(form.getTitle(), inputForm.getTitle());
@@ -493,13 +493,13 @@ public class BookManageControllerUnitTests {
     @Test
     public void updateOneBook_入力エラーが発生する場合のステータスとビューとモデルの確認() throws Exception {
         // テストデータ作成
-        BookManageForm inputForm = BookManageForm.builder()
+        BookManagementForm inputForm = BookManagementForm.builder()
                 .title("")
                 .author("")
                 .newBook(false)
                 .version(TEST_VERSION)
                 .build();
-        BookManageForm initForm = BookManageForm.builder()
+        BookManagementForm initForm = BookManagementForm.builder()
                 .newBook(true)
                 .books(Arrays.asList(testBook))
                 .build();
@@ -521,7 +521,7 @@ public class BookManageControllerUnitTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertEquals(form.getTitle(), inputForm.getTitle());
@@ -559,7 +559,7 @@ public class BookManageControllerUnitTests {
     public void deleteOneBook_指定したIDのデータが存在しない場合のステータスとビューとモデルの確認() throws Exception {
         // モックを登録
         doThrow(new BookNotFoundException(INVALID_TEST_ID)).when(service).deleteBook(INVALID_TEST_ID);
-        BookManageForm initForm = BookManageForm.builder()
+        BookManagementForm initForm = BookManagementForm.builder()
                 .newBook(true)
                 .books(Arrays.asList(testBook))
                 .build();
@@ -573,7 +573,7 @@ public class BookManageControllerUnitTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertNull(form.getTitle());
@@ -656,7 +656,7 @@ public class BookManageControllerUnitTests {
     @Test
     void admin_管理者機能にアクセスした場合のステータスとビュー名とモデルの確認() throws Exception {
         // モックを登録
-        BookManageForm initForm = BookManageForm.builder()
+        BookManagementForm initForm = BookManagementForm.builder()
                 .newBook(true)
                 .books(Arrays.asList(testBook))
                 .build();
@@ -673,7 +673,7 @@ public class BookManageControllerUnitTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertNull(form.getTitle());

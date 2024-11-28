@@ -1,4 +1,4 @@
-package com.example.bookmanage;
+package com.example.bookmanage.config;
 
 import java.util.Arrays;
 

@@ -2,7 +2,7 @@ package com.example.bookmanage.form;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.example.bookmanage.WebMvcConfig;
+import com.example.bookmanage.config.WebMvcConfig;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +71,7 @@ class BookManageFormTests {
     /**
      * フォーム情報
      */
-    private BookManageForm form = new BookManageForm();
+    private BookManagementForm form = new BookManagementForm();
 
     /**
      * BindingResult

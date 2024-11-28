@@ -28,7 +28,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.example.bookmanage.BookmanageApplication;
-import com.example.bookmanage.form.BookManageForm;
+import com.example.bookmanage.form.BookManagementForm;
 
 @SpringBootTest(classes = BookmanageApplication.class)
 class BookManageControllerIntegrationTests {
@@ -82,7 +82,7 @@ class BookManageControllerIntegrationTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertNull(form.getTitle());
@@ -96,7 +96,7 @@ class BookManageControllerIntegrationTests {
     @WithMockUser(username = "user", password="user", authorities = "ROLE_USER")
     public void 認証ありでpostリクエストでbooksにアクセスする場合のステータスとリダイレクトURLの確認() throws Exception {
         // テストデータ作成
-        BookManageForm inputForm = BookManageForm.builder()
+        BookManagementForm inputForm = BookManagementForm.builder()
                 .title(TEST_TITLE)
                 .author(TEST_AUTHOR)
                 .newBook(true)
@@ -136,7 +136,7 @@ class BookManageControllerIntegrationTests {
                 .andReturn();
 
         // モデルからformを取得する
-        BookManageForm form = (BookManageForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
 
         // 変数を評価する
         assertNull(form.getTitle());
