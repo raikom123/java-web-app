@@ -14,9 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * 書籍管理システムのConfiguration
  *
- * 以下を実装している。
- * PUT/DELETEをPOSTするためにHiddenHttpMehotdFilterをFilterとして設定する。
- * validationで使用するメッセージプロパティのエンコードをUTF-8に設定する。
+ * 以下を実装している。 PUT/DELETEをPOSTするためにHiddenHttpMehotdFilterをFilterとして設定する。 validationで使用するメッセージプロパティのエンコードをUTF-8に設定する。
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -36,7 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * validationで使用するメッセージプロパティのエンコードにUTF-8を設定したLocalValidatorFactoryBeanを返却する。
-     * 
+     *
      * @return LocalValidatorFactoryBean
      */
     @Override

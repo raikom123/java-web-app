@@ -2,11 +2,11 @@ package com.example.bookmanage.domain;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Version;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Version;
 
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,7 +64,8 @@ public abstract class AbstractEntity {
         updatedDateTime = datetime;
 
         SecurityContext context = SecurityContextHolder.getContext();
-        String userName = context.getAuthentication().getName();
+        String userName = context.getAuthentication()
+                                 .getName();
         createdUser = userName;
         updatedUser = userName;
     }
@@ -77,7 +78,8 @@ public abstract class AbstractEntity {
         updatedDateTime = LocalDateTime.now();
 
         SecurityContext context = SecurityContextHolder.getContext();
-        updatedUser = context.getAuthentication().getName();
+        updatedUser = context.getAuthentication()
+                             .getName();
     }
 
 }

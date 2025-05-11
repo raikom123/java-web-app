@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.thymeleaf.dialect.IDialect;
-import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
 /**
  * 書籍管理システムのThymeleafのConfiguration<br />
- * thymeleaf.extras.springsecurity5をMVCコントローラで使用するために設定している。
+ * thymeleaf.extras.springsecurity6をMVCコントローラで使用するために設定している。
  */
 @Configuration
 public class ThymeleafMvcConfig {

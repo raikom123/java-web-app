@@ -2,8 +2,8 @@ package com.example.bookmanage.form;
 
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import com.example.bookmanage.domain.Book;
 
