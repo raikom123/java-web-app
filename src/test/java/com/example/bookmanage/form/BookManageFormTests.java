@@ -106,15 +106,19 @@ class BookManageFormTests {
     @Test
     void タイトルが空の場合_エラーが発生することの確認() {
         // 想定されるメッセージをリソースから取得する
-        String actualMessage = messageSource.getMessage("javax.validation.constraints.NotBlank.message", null, null);
+        String actualMessage = messageSource.getMessage("jakarta.validation.constraints.NotBlank.message", null, null);
 
         // 不正な値を設定し、チェックを行う
         form.setTitle(TITLE_ERROR_NOT_EMPTY);
         validator.validate(form, result);
 
         // エラーが発生したフィールドとメッセージを確認する
-        assertEquals(result.getFieldError().getField(), "title");
-        assertEquals(result.getFieldError().getDefaultMessage(), actualMessage);
+        assertEquals(result.getFieldError()
+                           .getField(),
+                "title");
+        assertEquals(result.getFieldError()
+                           .getDefaultMessage(),
+                actualMessage);
     }
 
     @Test
@@ -127,22 +131,30 @@ class BookManageFormTests {
         validator.validate(form, result);
 
         // エラーが発生したフィールドとメッセージを確認する
-        assertEquals(result.getFieldError().getField(), "title");
-        assertEquals(result.getFieldError().getDefaultMessage(), actualMessage);
+        assertEquals(result.getFieldError()
+                           .getField(),
+                "title");
+        assertEquals(result.getFieldError()
+                           .getDefaultMessage(),
+                actualMessage);
     }
 
     @Test
     void 著者が空の場合_エラーが発生することの確認() {
         // 想定されるメッセージをリソースから取得する
-        String actualMessage = messageSource.getMessage("javax.validation.constraints.NotBlank.message", null, null);
+        String actualMessage = messageSource.getMessage("jakarta.validation.constraints.NotBlank.message", null, null);
 
         // 不正な値を設定し、チェックを行う
         form.setAuthor(AUTHOR_ERROR_NOT_EMPTY);
         validator.validate(form, result);
 
         // エラーが発生したフィールドとメッセージを確認する
-        assertEquals(result.getFieldError().getField(), "author");
-        assertEquals(result.getFieldError().getDefaultMessage(), actualMessage);
+        assertEquals(result.getFieldError()
+                           .getField(),
+                "author");
+        assertEquals(result.getFieldError()
+                           .getDefaultMessage(),
+                actualMessage);
     }
 
     @Test
@@ -155,8 +167,12 @@ class BookManageFormTests {
         validator.validate(form, result);
 
         // エラーが発生したフィールドとメッセージを確認する
-        assertEquals(result.getFieldError().getField(), "author");
-        assertEquals(result.getFieldError().getDefaultMessage(), actualMessage);
+        assertEquals(result.getFieldError()
+                           .getField(),
+                "author");
+        assertEquals(result.getFieldError()
+                           .getDefaultMessage(),
+                actualMessage);
     }
 
 }

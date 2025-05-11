@@ -48,41 +48,45 @@ class BookManageControllerIntegrationTests {
     void setUp() throws Exception {
         // MVCモックを生成
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .apply(springSecurity())
-                .alwaysDo(log())
-                .build();
+                                 .apply(springSecurity())
+                                 .alwaysDo(log())
+                                 .build();
     }
 
     @Test
     void login処理でログインに成功した場合の確認() throws Exception {
         // ログイン処理を行う
-        mockMvc.perform(formLogin("/authenticate").user("user").password("user"))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection()) // HTTPステータスが3xxか否か(リダイレクト)
-                .andExpect(redirectedUrl("/books")); // /booksにリダイレクトするか否か
+        mockMvc.perform(formLogin("/authenticate").user("user")
+                                                  .password("user"))
+               .andDo(print())
+               .andExpect(status().is3xxRedirection()) // HTTPステータスが3xxか否か(リダイレクト)
+               .andExpect(redirectedUrl("/loginsuccess")); // /loginsuccessにリダイレクトするか否か
     }
 
     @Test
     void login処理でログインに失敗した場合の確認() throws Exception {
         // ログイン処理を行う
-        mockMvc.perform(formLogin("/authenticate").user("user").password("xxxxx"))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection()) // HTTPステータスが3xxか否か(リダイレクト)
-                .andExpect(redirectedUrl("/loginfailure")); // /loginfailureにリダイレクトするか否か
+        mockMvc.perform(formLogin("/authenticate").user("user")
+                                                  .password("xxxxx"))
+               .andDo(print())
+               .andExpect(status().is3xxRedirection()) // HTTPステータスが3xxか否か(リダイレクト)
+               .andExpect(redirectedUrl("/loginfailure")); // /loginfailureにリダイレクトするか否か
     }
 
     @Test
-    @WithMockUser(username = "user", password="user", authorities = "ROLE_USER")
+    @WithMockUser(username = "user", password = "user", authorities = "ROLE_USER")
     void 認証ありでgetリクエストでbooksにアクセスする場合のステータスとビューとモデルの確認() throws Exception {
         // getリクエストでbooksを指定する
         MvcResult result = this.mockMvc.perform(get("/books"))
-                .andDo(print())
-                .andExpect(status().isOk()) // HTTPステータスが200か否か
-                .andExpect(view().name("books")) // ビュー名が"books"か否か
-                .andReturn();
+                                       .andDo(print())
+                                       .andExpect(status().isOk()) // HTTPステータスが200か否か
+                                       .andExpect(view().name("books")) // ビュー名が"books"か否か
+                                       .andReturn();
 
         // モデルからformを取得する
-        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView()
+                                                             .getModel()
+                                                             .get("bookManageForm");
 
         // 変数を評価する
         assertNull(form.getTitle());
@@ -93,15 +97,15 @@ class BookManageControllerIntegrationTests {
     }
 
     @Test
-    @WithMockUser(username = "user", password="user", authorities = "ROLE_USER")
+    @WithMockUser(username = "user", password = "user", authorities = "ROLE_USER")
     public void 認証ありでpostリクエストでbooksにアクセスする場合のステータスとリダイレクトURLの確認() throws Exception {
         // テストデータ作成
         BookManagementForm inputForm = BookManagementForm.builder()
-                .title(TEST_TITLE)
-                .author(TEST_AUTHOR)
-                .newBook(true)
-                .version(0)
-                .build();
+                                                         .title(TEST_TITLE)
+                                                         .author(TEST_AUTHOR)
+                                                         .newBook(true)
+                                                         .version(0)
+                                                         .build();
 
         // postリクエストでbooksを指定する
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -110,33 +114,36 @@ class BookManageControllerIntegrationTests {
         params.add("newBook", String.valueOf(inputForm.isNewBook()));
         params.add("version", String.valueOf(inputForm.getVersion()));
         // csrfを設定しないとセッションが無効になる
-        mockMvc.perform(post("/books").with(csrf()).params(params))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection()) // HTTPステータスが3xxか否か(リダイレクト)
-                .andExpect(redirectedUrl("/books")); // /booksにリダイレクトするか否か
+        mockMvc.perform(post("/books").with(csrf())
+                                      .params(params))
+               .andDo(print())
+               .andExpect(status().is3xxRedirection()) // HTTPステータスが3xxか否か(リダイレクト)
+               .andExpect(redirectedUrl("/books")); // /booksにリダイレクトするか否か
     }
 
     @Test
     void 認証なしでbooksにアクセスしようとした場合の確認() throws Exception {
         // getリクエストでbooksにアクセス
         mockMvc.perform(get("/books"))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("http://localhost/login"));
+               .andDo(print())
+               .andExpect(status().is3xxRedirection())
+               .andExpect(redirectedUrl("http://localhost/login"));
     }
 
     @Test
-    @WithMockUser(username = "admin", password="admin", authorities = "ROLE_ADMIN")
+    @WithMockUser(username = "admin", password = "admin", authorities = "ROLE_ADMIN")
     void 管理者権限があるユーザでadminにアクセスしようとした場合の確認() throws Exception {
         // getリクエストでadminを指定する
         MvcResult result = this.mockMvc.perform(get("/admin"))
-                .andDo(print())
-                .andExpect(status().isOk()) // HTTPステータスが200か否か
-                .andExpect(view().name("admin")) // ビュー名が"admin"か否か
-                .andReturn();
+                                       .andDo(print())
+                                       .andExpect(status().isOk()) // HTTPステータスが200か否か
+                                       .andExpect(view().name("admin")) // ビュー名が"admin"か否か
+                                       .andReturn();
 
         // モデルからformを取得する
-        BookManagementForm form = (BookManagementForm) result.getModelAndView().getModel().get("bookManageForm");
+        BookManagementForm form = (BookManagementForm) result.getModelAndView()
+                                                             .getModel()
+                                                             .get("bookManageForm");
 
         // 変数を評価する
         assertNull(form.getTitle());
@@ -147,21 +154,21 @@ class BookManageControllerIntegrationTests {
     }
 
     @Test
-    @WithMockUser(username = "user", password="user", authorities = "ROLE_USER")
+    @WithMockUser(username = "user", password = "user", authorities = "ROLE_USER")
     void 管理者権限がないユーザでadminにアクセスしようとした場合の確認() throws Exception {
         // getリクエストでadminにアクセス
         mockMvc.perform(get("/admin").with(SecurityMockMvcRequestPostProcessors.csrf()))
-                .andDo(print())
-                .andExpect(status().isForbidden()); // クライアントエラー(403)
+               .andDo(print())
+               .andExpect(status().isForbidden()); // クライアントエラー(403)
     }
 
     @Test
     void ログアウトした場合の確認() throws Exception {
         // getリクエストでlogoutにアクセス
         mockMvc.perform(get("/logout"))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/logoutsuccess"));
+               .andDo(print())
+               .andExpect(status().is3xxRedirection())
+               .andExpect(redirectedUrl("/logoutsuccess"));
     }
 
 }

@@ -11,12 +11,11 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
-
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import com.example.bookmanage.BookmanageApplication;
 import com.example.bookmanage.domain.Book;
 import com.example.bookmanage.exception.BookNotFoundException;
@@ -57,13 +56,13 @@ class BookManageServiceTests {
     /**
      * 書籍管理システムのサービス
      */
-    @InjectMocks
+    @Autowired
     private BookManageService service;
 
     /**
      * 書籍管理システムのリポジトリ
      */
-    @Mock
+    @MockitoBean
     private BookRepository repository;
 
     /**
@@ -75,10 +74,10 @@ class BookManageServiceTests {
     void setup() {
         // テストデータの生成
         testBook = Book.builder()
-                .id(TEST_ID)
-                .title(TEST_TITLE)
-                .author(TEST_AUTHOR)
-                .build();
+                       .id(TEST_ID)
+                       .title(TEST_TITLE)
+                       .author(TEST_AUTHOR)
+                       .build();
         testBook.setVersion(TEST_VERSION);
     }
 
@@ -96,10 +95,13 @@ class BookManageServiceTests {
         assertEquals(form.isNewBook(), true);
         assertEquals(form.getVersion(), 0);
         assertNotNull(form.getBooks());
-        assertEquals(form.getBooks().size(), 1);
+        assertEquals(form.getBooks()
+                         .size(),
+                1);
 
         // booksにrepository.findAllの結果が設定されているか評価する
-        Book book = form.getBooks().get(0);
+        Book book = form.getBooks()
+                        .get(0);
         assertEquals(book.getTitle(), TEST_TITLE);
         assertEquals(book.getAuthor(), TEST_AUTHOR);
         assertEquals(book.getId(), TEST_ID);
@@ -125,7 +127,9 @@ class BookManageServiceTests {
             assertEquals(form.isNewBook(), false);
             assertEquals(form.getVersion(), TEST_VERSION);
             assertNotNull(form.getBooks());
-            assertEquals(form.getBooks().size(), 1);
+            assertEquals(form.getBooks()
+                             .size(),
+                    1);
 
             // repositoryのメソッドの呼び出しを確認
             verify(repository, times(1)).findAll();
@@ -148,7 +152,8 @@ class BookManageServiceTests {
 
             // Exceptionが発生しない場合、エラー
             fail();
-        } catch (BookNotFoundException e) { }
+        } catch (BookNotFoundException e) {
+        }
     }
 
     @Test
@@ -159,10 +164,10 @@ class BookManageServiceTests {
 
         // updateBookを呼び出す
         BookManagementForm form = BookManagementForm.builder()
-                .title(TEST_TITLE)
-                .author(TEST_AUTHOR)
-                .version(TEST_VERSION)
-                .build();
+                                                    .title(TEST_TITLE)
+                                                    .author(TEST_AUTHOR)
+                                                    .version(TEST_VERSION)
+                                                    .build();
 
         try {
             // updateBookを呼び出す
@@ -186,10 +191,10 @@ class BookManageServiceTests {
 
         // updateBookを呼び出す
         BookManagementForm form = BookManagementForm.builder()
-                .title(TEST_TITLE)
-                .author(TEST_AUTHOR)
-                .version(INVALID_TEST_VERSION)
-                .build();
+                                                    .title(TEST_TITLE)
+                                                    .author(TEST_AUTHOR)
+                                                    .version(INVALID_TEST_VERSION)
+                                                    .build();
 
         try {
             // updateBookを呼び出す
@@ -212,10 +217,10 @@ class BookManageServiceTests {
 
         // updateBookを呼び出す
         BookManagementForm form = BookManagementForm.builder()
-                .title(TEST_TITLE)
-                .author(TEST_AUTHOR)
-                .version(TEST_VERSION)
-                .build();
+                                                    .title(TEST_TITLE)
+                                                    .author(TEST_AUTHOR)
+                                                    .version(TEST_VERSION)
+                                                    .build();
 
         try {
             // updateBookを呼び出す
@@ -223,16 +228,17 @@ class BookManageServiceTests {
 
             // Exceptionが発生しない場合、エラー
             fail();
-        } catch (BookNotFoundException e) { }
+        } catch (BookNotFoundException e) {
+        }
     }
 
     @Test
     void createBook_戻り値と保存処理の呼び出しを確認() {
         // 引数を作成
         BookManagementForm form = BookManagementForm.builder()
-                .title(TEST_TITLE)
-                .author(TEST_AUTHOR)
-                .build();
+                                                    .title(TEST_TITLE)
+                                                    .author(TEST_AUTHOR)
+                                                    .build();
         Book inputBook = new ModelMapper().map(form, Book.class);
 
         // モック
@@ -276,7 +282,8 @@ class BookManageServiceTests {
 
             // Exceptionが発生しないとエラー
             fail();
-        } catch (BookNotFoundException e) { }
+        } catch (BookNotFoundException e) {
+        }
     }
 
 }
